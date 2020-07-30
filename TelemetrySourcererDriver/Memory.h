@@ -1,13 +1,5 @@
 #pragma once
 
-typedef struct _MEMORY_SEARCH_QUERY {
-	ULONG                 OsIndex;
-	MEMORY_SEARCH_NEEDLE  Needle;
-	PWCHAR                HaystackStartFunction;
-	PWCHAR                HaystackEndFunction;
-	MEMORY_SEARCH_OFFSETS Offsets;
-} MEMORY_SEARCH_QUERY, *PMEMORY_SEARCH_QUERY;
-
 #pragma warning(disable:4201)
 typedef union {
 	struct {

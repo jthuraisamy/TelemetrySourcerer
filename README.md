@@ -8,7 +8,13 @@
 
 Telemetry Sourcerer can enumerate and disable common sources of telemetry used by AV/EDR on Windows.
 
-Red teamers and security enthusiasts can use this tool in a lab environment to identify blind spots in the products they're up against, and check to see if using the tool's tampering capabilities can lead to detection. For more information on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html).
+Red teamers and security enthusiasts can use this tool in a lab environment to:
+
+- Identify collection-based blind spots in the products they're up against.
+- Determine which sources of telemetry generate particular types of events.
+- Validate whether using the tool's tampering capabilities can lead to detection.
+
+For more information on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html).
 
 ## Features
 
@@ -64,6 +70,14 @@ This tool was developed by [@Jackson_T](https://twitter.com/Jackson_T) but build
 
 - [@gentilkiwi](https://twitter.com/gentilkiwi) and [@fdiskyou](https://twitter.com/fdiskyou) for driver code that enumerates callback functions.
 - [@0x00dtm](https://twitter.com/0x00dtm) for the inline user-mode hook comparison logic.
+
+## Related Articles and Projects
+
+- [@matterpreter](https://twitter.com/matterpreter): [Mimidrv In Depth: Exploring Mimikatz’s Kernel Driver](https://posts.specterops.io/mimidrv-in-depth-4d273d19e148)
+- [@fdiskyou](https://twitter.com/fdiskyou): [Windows Kernel Ps Callbacks Experiments](http://deniable.org/windows/windows-callbacks)
+- [@matteomalvica](https://twitter.com/matteomalvica): [Silencing the EDR. How to disable process, threads and image-loading detection callbacks.](https://www.matteomalvica.com/blog/2020/07/15/silencing-the-edr/)
+- [@0x00dtm](https://twitter.com/0x00dtm): [Defeating Userland Hooks (ft. Bitdefender)](https://0x00sec.org/t/defeating-userland-hooks-ft-bitdefender/12496) ([Code](https://github.com/NtRaiseHardError/Antimalware-Research/tree/master/Generic/Userland%20Hooking/AntiHook))
+- [@palantir](https://medium.com/palantir): [Tampering with Windows Event Tracing: Background, Offense, and Defense](https://medium.com/palantir/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63)
 
 ## Licence
 

@@ -14,7 +14,7 @@ Red teamers and security enthusiasts can use this tool in a lab environment to:
 - Determine which sources of telemetry generate particular types of events.
 - Validate whether using the tool's tampering capabilities can lead to detection.
 
-For more information on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html).
+For details on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html).
 
 ## Features
 

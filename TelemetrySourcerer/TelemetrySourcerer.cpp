@@ -71,7 +71,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
     // The string that appears in the application's title bar.
     WCHAR szTitle[MAX_PATH] = { 0 };
-    StringCbPrintfW(szTitle, MAX_PATH, L"Telemetry Sourcerer v%s by @Jackson_T (%s %s)", VERSION, _T(__DATE__), _T(__TIME__));
+    StringCbPrintfW(szTitle, MAX_PATH, L"%s v%s by @Jackson_T (%s %s)", TOOL_NAME, VERSION, _T(__DATE__), _T(__TIME__));
 
     WNDCLASSEX wcex;
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -1285,7 +1285,7 @@ VOID KmcLoadResults()
             NULL,
             L"Could not find TelemetrySourcererDriver.sys.\n\n"
             L"Please ensure it is in the same directory as the executable.",
-            L"Telemetry Sourcerer",
+            TOOL_NAME,
             MB_ICONERROR);
         break;
     case ERROR_INVALID_IMAGE_HASH:
@@ -1294,7 +1294,7 @@ VOID KmcLoadResults()
             L"The signature for the driver failed verification.\n\n"
             L"To load kernel-mode callback results, either enable test signing, "
             L"or sign this driver with a valid certificate.",
-            L"Telemetry Sourcerer",
+            TOOL_NAME,
             MB_ICONERROR);
         break;
     default:

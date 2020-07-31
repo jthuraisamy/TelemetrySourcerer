@@ -34,7 +34,7 @@ For details on building a private lab, consider reading my post on [Diverting ED
 
 ## Usage Instructions
 
-1. Download the [latest release](#).
+1. Download the [latest release](/releases).
 1. Extract files.
 1. Launch the executable.
 

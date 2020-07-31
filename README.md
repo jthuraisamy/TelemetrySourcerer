@@ -40,7 +40,7 @@ For details on building a private lab, consider reading my post on [Diverting ED
 
 ### Kernel-mode Callbacks
 
-To view kernel-mode callbacks, a driver needs to be loaded. Consider enabling test signing mode, temporarily disabling driver signature enforement (DSE), or signing the driver with a valid certificate:
+To view kernel-mode callbacks, a driver needs to be loaded. Consider enabling test signing mode, temporarily disabling driver signature enforcement (DSE), or signing the driver with a valid certificate:
 
 #### Test Signing Mode
 

@@ -126,7 +126,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
     switch (message)
     {
-    case WM_PAINT:
+    case WM_CREATE:
     {
         PaintWindow(hWnd);
 

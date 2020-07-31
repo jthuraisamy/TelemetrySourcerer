@@ -8,7 +8,13 @@
 
 Telemetry Sourcerer can enumerate and disable common sources of telemetry used by AV/EDR on Windows.
 
-Red teamers and security enthusiasts can use this tool in a lab environment to identify blind spots in the products they're up against, and check to see if using the tool's tampering capabilities can lead to detection. For more information on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html).
+Red teamers and security enthusiasts can use this tool in a lab environment to:
+
+- Identify collection-based blind spots in the products they're up against.
+- Determine which sources of telemetry generate particular types of events.
+- Validate whether using the tool's tampering capabilities can lead to detection.
+
+For details on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html).
 
 ## Features
 
@@ -28,13 +34,13 @@ Red teamers and security enthusiasts can use this tool in a lab environment to i
 
 ## Usage Instructions
 
-1. Download the [latest release](#).
+1. Download the [latest release](https://github.com/jthuraisamy/TelemetrySourcerer/releases).
 1. Extract files.
 1. Launch the executable.
 
 ### Kernel-mode Callbacks
 
-To view kernel-mode callbacks, consider enabling test signing mode or signing the driver with a valid certificate:
+To view kernel-mode callbacks, the tool needs to be run with elevated privileges to load a driver. The driver does not come signed, so consider enabling test signing mode, temporarily disabling driver signature enforcement (DSE), or signing the driver with a valid certificate:
 
 #### Test Signing Mode
 
@@ -43,6 +49,14 @@ To view kernel-mode callbacks, consider enabling test signing mode or signing th
 1. Enter `bcdedit.exe -set TESTSIGNING ON`.
 1. Reboot system.
 1. Launch Telemetry Sourcerer with elevated privileges.
+
+#### Disable DSE with [KDU](https://github.com/hfiref0x/KDU)
+
+1. `git clone https://github.com/hfiref0x/KDU.git`
+1. Open an elevated Command Prompt window.
+1. Enter `kdu -dse 0` to disable DSE.
+1. Launch Telemetry Sourcerer with elevated privileges.
+1. Enter `kdu -dse 6` to enable DSE.
 
 #### Sign Driver
 
@@ -64,6 +78,14 @@ This tool was developed by [@Jackson_T](https://twitter.com/Jackson_T) but build
 
 - [@gentilkiwi](https://twitter.com/gentilkiwi) and [@fdiskyou](https://twitter.com/fdiskyou) for driver code that enumerates callback functions.
 - [@0x00dtm](https://twitter.com/0x00dtm) for the inline user-mode hook comparison logic.
+
+## Related Articles and Projects
+
+- [@matterpreter](https://twitter.com/matterpreter): [Mimidrv In Depth: Exploring Mimikatz’s Kernel Driver](https://posts.specterops.io/mimidrv-in-depth-4d273d19e148)
+- [@fdiskyou](https://twitter.com/fdiskyou): [Windows Kernel Ps Callbacks Experiments](http://deniable.org/windows/windows-callbacks)
+- [@matteomalvica](https://twitter.com/matteomalvica): [Silencing the EDR. How to disable process, threads and image-loading detection callbacks.](https://www.matteomalvica.com/blog/2020/07/15/silencing-the-edr/)
+- [@0x00dtm](https://twitter.com/0x00dtm): [Defeating Userland Hooks (ft. Bitdefender)](https://0x00sec.org/t/defeating-userland-hooks-ft-bitdefender/12496) ([Code](https://github.com/NtRaiseHardError/Antimalware-Research/tree/master/Generic/Userland%20Hooking/AntiHook))
+- [@palantir](https://medium.com/palantir): [Tampering with Windows Event Tracing: Background, Offense, and Defense](https://medium.com/palantir/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63)
 
 ## Licence
 

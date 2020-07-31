@@ -40,7 +40,7 @@ For details on building a private lab, consider reading my post on [Diverting ED
 
 ### Kernel-mode Callbacks
 
-To view kernel-mode callbacks, consider enabling test signing mode or signing the driver with a valid certificate:
+To view kernel-mode callbacks, a driver needs to be loaded. Consider enabling test signing mode, temporarily disabling driver signature enforement (DSE), or signing the driver with a valid certificate:
 
 #### Test Signing Mode
 
@@ -49,6 +49,14 @@ To view kernel-mode callbacks, consider enabling test signing mode or signing th
 1. Enter `bcdedit.exe -set TESTSIGNING ON`.
 1. Reboot system.
 1. Launch Telemetry Sourcerer with elevated privileges.
+
+#### Disable DSE with [KDU](https://github.com/hfiref0x/KDU)
+
+1. `git clone https://github.com/hfiref0x/KDU.git`
+1. Open an elevated Command Prompt window.
+1. Enter `kdu -dse 0` to disable DSE.
+1. Launch Telemetry Sourcerer with elevated privileges.
+1. Enter `kdu -dse 6` to enable DSE.
 
 #### Sign Driver
 

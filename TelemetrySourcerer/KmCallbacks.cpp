@@ -114,18 +114,28 @@ DWORD UnloadDriver()
 }
 
 // Function:    IsProcessElevated
-// Description: Checks if process is running elevated.
+// Description: Checks if process is running elevated or is running as SYSTEM.
 // Called from: LoadDriver to check eligibility.
 BOOL IsProcessElevated()
 {
 	HANDLE TokenHandle;
-	OpenProcessToken(GetCurrentProcess(), TOKEN_READ, &TokenHandle);
-
 	DWORD ReturnLength;
 	TOKEN_ELEVATION_TYPE ElevationType;
+	OpenProcessToken(GetCurrentProcess(), TOKEN_READ, &TokenHandle);
 	GetTokenInformation(TokenHandle, TokenElevationType, &ElevationType, sizeof(TOKEN_ELEVATION_TYPE), &ReturnLength);
 
-	return (ElevationType == TokenElevationTypeFull);
+	if (ElevationType == TokenElevationTypeFull)
+		return TRUE;
+
+	BOOL IsSystem = FALSE;
+	PSID SystemSid = nullptr;
+	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+	if (AllocateAndInitializeSid(&NtAuthority, 1, SECURITY_LOCAL_SYSTEM_RID, 0, 0, 0, 0, 0, 0, 0, &SystemSid))
+		if (CheckTokenMembership(NULL, SystemSid, &IsSystem))
+			if (IsSystem)
+				return TRUE;
+
+	return FALSE;
 }
 
 // Function:    GetDeviceHandle

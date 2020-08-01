@@ -38,7 +38,7 @@ For details on building a private lab, consider reading my post on [Diverting ED
 1. Extract files.
 1. Launch the executable (run elevated for kernel-mode callbacks or more ETW sessions).
 
-> Although it's possible to use this in targeted environments, there are OPSEC risks when using any offensive security tool _as is_. You can instead leverage the code from this project in your own tooling for operational use.
+> Although it's possible to use this in targeted environments, there are OPSEC risks when using any offensive security tool _as is_. You can instead leverage the code from this project into your own tooling for operational use.
 
 ### Kernel-mode Callbacks
 

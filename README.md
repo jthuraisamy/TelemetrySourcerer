@@ -38,7 +38,7 @@ For details on building a private lab, consider reading my post on [Diverting ED
 1. Extract files.
 1. Launch the executable (run elevated for kernel-mode callbacks or more ETW sessions).
 
-> :warning: Although it's possible to use this in targeted environments, there are OPSEC risks when using any offensive security tool _as is_. You can instead leverage the code from this project in your own tooling for operational use.
+> Although it's possible to use this in targeted environments, there are OPSEC risks when using any offensive security tool _as is_. You can instead leverage the code from this project in your own tooling for operational use.
 
 ### Kernel-mode Callbacks
 
@@ -59,6 +59,8 @@ To view kernel-mode callbacks, the tool needs to be run with elevated privileges
 1. Enter `kdu -dse 0` to disable DSE.
 1. Launch Telemetry Sourcerer with elevated privileges.
 1. Enter `kdu -dse 6` to enable DSE.
+
+> This may be [incompatible](https://github.com/hfiref0x/DSEFix#patchguard-incompatibility) with [KPP](https://en.wikipedia.org/wiki/Kernel_Patch_Protection) on Windows 8.1+.
 
 #### Sign Driver
 

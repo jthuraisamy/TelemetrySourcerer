@@ -60,7 +60,7 @@ To view kernel-mode callbacks, the tool needs to be run with elevated privileges
 1. Launch Telemetry Sourcerer with elevated privileges.
 1. Enter `kdu -dse 6` to enable DSE.
 
-> This may be [incompatible](https://github.com/hfiref0x/DSEFix#patchguard-incompatibility) with [KPP](https://en.wikipedia.org/wiki/Kernel_Patch_Protection) on Windows 8.1+.
+> This option may be [incompatible](https://github.com/hfiref0x/DSEFix#patchguard-incompatibility) with [KPP](https://en.wikipedia.org/wiki/Kernel_Patch_Protection) on Windows 8.1+.
 
 #### Sign Driver
 

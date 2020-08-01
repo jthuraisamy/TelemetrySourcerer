@@ -14,7 +14,7 @@ Red teamers and security enthusiasts can use this tool in a lab environment to:
 - Determine which sources of telemetry generate particular types of events.
 - Validate whether using the tool's tampering capabilities can lead to detection.
 
-For details on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html).
+For details on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html). 
 
 ## Features
 
@@ -36,7 +36,9 @@ For details on building a private lab, consider reading my post on [Diverting ED
 
 1. Download the [latest release](https://github.com/jthuraisamy/TelemetrySourcerer/releases).
 1. Extract files.
-1. Launch the executable.
+1. Launch the executable (run elevated for kernel-mode callbacks or more ETW sessions).
+
+> Although it's possible to use this in targeted environments, there are OPSEC risks when using any offensive security tool _as is_. You can instead leverage the code from this project in your own tooling for operational use.
 
 ### Kernel-mode Callbacks
 

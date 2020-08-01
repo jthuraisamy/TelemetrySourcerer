@@ -124,7 +124,7 @@ VOID PopulateSessionProviders(std::vector<PTRACING_SESSION> Sessions)
 
 	// Iterate through each provider to associate them with sessions.
 	DWORD ProviderGuidCount = ProviderGuidListSize / sizeof(GUID);
-	for (int i = 0; i < ProviderGuidCount; i++)
+	for (unsigned int i = 0; i < ProviderGuidCount; i++)
 	{
 		GUID ProviderGuid = ProviderGuidList[i];
 
@@ -139,12 +139,12 @@ VOID PopulateSessionProviders(std::vector<PTRACING_SESSION> Sessions)
 		}
 
 		PTRACE_PROVIDER_INSTANCE_INFO TraceProviderInstanceInfo = (PTRACE_PROVIDER_INSTANCE_INFO)((PBYTE)TraceGuidInfo + sizeof(TRACE_GUID_INFO));
-		for (int j = 0; j < TraceGuidInfo->InstanceCount; j++)
+		for (unsigned int j = 0; j < TraceGuidInfo->InstanceCount; j++)
 		{
 			if (TraceProviderInstanceInfo->EnableCount > 0)
 			{
 				PTRACE_ENABLE_INFO TraceEnableInfo = (PTRACE_ENABLE_INFO)((PBYTE)TraceProviderInstanceInfo + sizeof(TRACE_PROVIDER_INSTANCE_INFO));
-				for (int k = 0; k < TraceProviderInstanceInfo->EnableCount; k++)
+				for (unsigned int k = 0; k < TraceProviderInstanceInfo->EnableCount; k++)
 				{
 					USHORT LoggerId = TraceEnableInfo->LoggerId;
 
@@ -152,6 +152,8 @@ VOID PopulateSessionProviders(std::vector<PTRACING_SESSION> Sessions)
 					{
 						if (TracingSession->LoggerId == LoggerId)
 						{
+							// There tends to be duplicates, so the logic below ensures that only
+							// unique providers are added to the session.
 							BOOL ShouldAddProvider = TRUE;
 							for (PTRACE_PROVIDER TraceProvider : TracingSession->EnabledProviders)
 								if (TraceProvider->ProviderId == ProviderGuid)
@@ -165,7 +167,7 @@ VOID PopulateSessionProviders(std::vector<PTRACING_SESSION> Sessions)
 
 								// Get the provider name.
 								LPWSTR ProviderName = nullptr;
-								for (int l = 0; l < PeiBuffer->NumberOfProviders; l++)
+								for (unsigned int l = 0; l < PeiBuffer->NumberOfProviders; l++)
 								{
 									if (ProviderGuid == PeiBuffer->TraceProviderInfoArray[l].ProviderGuid)
 									{

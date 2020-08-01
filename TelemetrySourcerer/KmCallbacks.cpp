@@ -53,27 +53,16 @@ DWORD LoadDriver()
 				SERVICE_DEMAND_START,
 				SERVICE_ERROR_NORMAL,
 				DriverPath,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL);
+				NULL, NULL, NULL, NULL, NULL);
 	}
 	// If it does exist, set the correct path of the driver.
 	else
 	{
 		ChangeServiceConfigW(
 			SvcHandle,
-			SERVICE_NO_CHANGE,
-			SERVICE_NO_CHANGE,
-			SERVICE_NO_CHANGE,
+			SERVICE_NO_CHANGE, SERVICE_NO_CHANGE, SERVICE_NO_CHANGE,
 			DriverPath,
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			NULL);
+			NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 
 	// Start the service.

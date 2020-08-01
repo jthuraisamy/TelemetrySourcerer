@@ -16,6 +16,8 @@ Red teamers and security enthusiasts can use this tool in a lab environment to:
 
 For details on building a private lab, consider reading my post on [Diverting EDR Telemetry to Private Infrastructure](http://jackson-t.ca/edr-reversing-evading-03.html). 
 
+> **WARNING**: Although it's possible to use this in targeted environments, there are OPSEC risks when using any offensive security tool _as is_. You can instead leverage the code from this project into your own tooling for operational use and combine with other techniques to reduce the footprint it creates.
+
 ## Features
 
 - Enumerates various kernel-mode callbacks with the ability to suppress them.
@@ -37,8 +39,6 @@ For details on building a private lab, consider reading my post on [Diverting ED
 1. Download the [latest release](https://github.com/jthuraisamy/TelemetrySourcerer/releases).
 1. Extract files.
 1. Launch the executable (run elevated for kernel-mode callbacks or more ETW sessions).
-
-> **WARNING**: Although it's possible to use this in targeted environments, there are OPSEC risks when using any offensive security tool _as is_. You can instead leverage the code from this project into your own tooling for operational use.
 
 ### Kernel-mode Callbacks
 

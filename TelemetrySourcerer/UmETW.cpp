@@ -31,6 +31,7 @@ VOID PopulateUmeHashes()
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-SMBClient")));
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-SMBServer")));
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-WMI-Activity")));
+	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-Sysmon")));
 
 	NotableSessionHashes.insert(0x7CB510BA9B40BEEC);
 	NotableSessionHashes.insert(0x0DD1D51CF3AADD14);
@@ -95,6 +96,7 @@ std::vector<PTRACING_SESSION> GetSessions()
 // Function:    PopulateSessionProviders
 // Description: Populates a TRACING_SESSION object with its enabled providers.
 // Called from: GetSessions
+// Remarks:     Adapted from https://docs.microsoft.com/en-us/windows/win32/api/evntrace/nf-evntrace-enumeratetraceguidsex.
 VOID PopulateSessionProviders(std::vector<PTRACING_SESSION> Sessions)
 {
 	PPROVIDER_ENUMERATION_INFO PeiBuffer = nullptr;

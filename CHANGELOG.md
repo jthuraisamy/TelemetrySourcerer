@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Disabled ETW providers will no longer disappear, but will be marked as disabled.
+- Notable list items will appear on top by default.
 
 ## [0.9.1] - 2020-07-31
 

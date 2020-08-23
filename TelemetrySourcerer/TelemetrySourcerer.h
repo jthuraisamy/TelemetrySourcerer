@@ -16,11 +16,14 @@ VOID ResizeWindow(HWND);
 VOID KmcLoadResults();
 VOID KmcSuppressCallback();
 VOID KmcRevertCallback();
+int CALLBACK KmcCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 
 VOID UmhLoadResults();
 VOID UmhRestoreFunction();
 VOID UmhLoadDll();
+int CALLBACK UmhCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 
 VOID UmeLoadResults();
 VOID UmeDisableSelectedProvider();
 VOID UmeStopTracingSession();
+int CALLBACK UmeCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);

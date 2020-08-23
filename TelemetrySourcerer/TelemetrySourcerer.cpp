@@ -525,6 +525,11 @@ LRESULT CALLBACK KmcWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 plvdi->item.pszText = (Callback->Suppressed) ? (LPWSTR)L"Yes" : (LPWSTR)L"No";
                 break;
             }
+            case 4:
+            {
+                plvdi->item.pszText = (Callback->Notable) ? (LPWSTR)L"Yes" : (LPWSTR)L"No";
+                break;
+            }
             default:
                 plvdi->item.pszText = (LPWSTR)L"N/A";
                 break;
@@ -575,6 +580,12 @@ LRESULT CALLBACK KmcWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             case CDDS_SUBITEM | CDDS_ITEMPREPAINT:
                 return CDRF_NEWFONT;
             }
+            break;
+        }
+        case LVN_COLUMNCLICK:
+        {
+            LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
+            ListView_SortItems(wh.KmcListView, KmcCompareFunc, pnmv->iSubItem);
             break;
         }
         }
@@ -649,6 +660,13 @@ LRESULT CALLBACK UmhWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 plvdi->item.pszText = (LPWSTR)L"N/A";
                 break;
             }
+            break;
+        }
+        case LVN_COLUMNCLICK:
+        {
+            LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
+            ListView_SortItems(wh.UmhListView, UmhCompareFunc, pnmv->iSubItem);
+            break;
         }
         }
         break;
@@ -707,6 +725,9 @@ LRESULT CALLBACK UmeWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             case 1:
                 plvdi->item.pszText = (LPWSTR)tp->ProviderName;
                 break;
+            case 2:
+                plvdi->item.pszText = (ts->Notable || tp->Notable) ? (LPWSTR)L"Yes" : (LPWSTR)L"No";
+                break;
             default:
                 plvdi->item.pszText = (LPWSTR)L"N/A";
                 break;
@@ -752,6 +773,12 @@ LRESULT CALLBACK UmeWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             case CDDS_SUBITEM | CDDS_ITEMPREPAINT:
                 return CDRF_NEWFONT;
             }
+            break;
+        }
+        case LVN_COLUMNCLICK:
+        {
+            LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
+            ListView_SortItems(wh.UmeListView, UmeCompareFunc, pnmv->iSubItem);
             break;
         }
         }
@@ -948,13 +975,18 @@ VOID PaintWindow(HWND hWnd)
 
     lvc.iSubItem = 2;
     lvc.pszText = (LPWSTR)L"Module";
-    lvc.cx = 250;
+    lvc.cx = 200;
     ListView_InsertColumn(wh.KmcListView, 2, &lvc);
 
     lvc.iSubItem = 3;
     lvc.pszText = (LPWSTR)L"Is Suppressed?";
     lvc.cx = 100;
     ListView_InsertColumn(wh.KmcListView, 3, &lvc);
+
+    lvc.iSubItem = 4;
+    lvc.pszText = (LPWSTR)L"Is Notable?";
+    lvc.cx = 100;
+    ListView_InsertColumn(wh.KmcListView, 4, &lvc);
 
     /**
      * User-mode Hooks
@@ -1208,6 +1240,11 @@ VOID PaintWindow(HWND hWnd)
     lvc.cx = 300;
     ListView_InsertColumn(wh.UmeListView, 1, &lvc);
 
+    lvc.iSubItem = 2;
+    lvc.pszText = (LPWSTR)L"Is Notable?";
+    lvc.cx = 100;
+    ListView_InsertColumn(wh.UmeListView, 2, &lvc);
+
     /**
      * About Page
      */
@@ -1327,7 +1364,51 @@ VOID KmcLoadResults()
     StringCbPrintfW(CountText, MAX_PATH, L"Count: %d callbacks.", wd.KmcCallbacks.size());
     Static_SetText(wh.KmcCountLabel, CountText);
 
+    // Default sort by notable items.
+    ListView_SortItems(wh.KmcListView, KmcCompareFunc, 4);
+
     SendMessage(wh.StatusBar, SB_SETTEXT, (WPARAM)0, (LPARAM)L"Ready");
+}
+
+// Function:    KmcCompareFunc
+// Description: Sorts the kernel-mode callbacks list view depending on the column.
+// Called from: KmcWndProc when clicking a column header of the callbacks list view.
+int CALLBACK KmcCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+    int nRetVal = 0;
+
+    PCALLBACK_ENTRY Item1Callback = wd.KmcCallbacks.at(lParam1);
+    PCALLBACK_ENTRY Item2Callback = wd.KmcCallbacks.at(lParam2);
+
+    switch (lParamSort)
+    {
+    case 0: // Collection Type
+    case 1: // Callback Type
+        if (Item1Callback->Type > Item2Callback->Type)
+            nRetVal = 1;
+        else if (Item1Callback->Type < Item2Callback->Type)
+            nRetVal = -1;
+        else
+            nRetVal = 0;
+        break;
+
+    case 2: // Module
+        nRetVal = wcscmp(Item1Callback->ModuleName, Item2Callback->ModuleName);
+        break;
+
+    case 3: // Is Suppressed?
+        nRetVal = (Item1Callback->Suppressed == Item2Callback->Suppressed) ? 0 : (Item1Callback->Suppressed) ? -1 : (Item2Callback->Suppressed) ? 1 : 0;
+        break;
+
+    case 4: // Is Notable?
+        nRetVal = (Item1Callback->Notable == Item2Callback->Notable) ? 0 : (Item1Callback->Notable) ? -1 : (Item2Callback->Notable) ? 1 : 0;
+        break;
+
+    default:
+        break;
+    }
+
+    return nRetVal;
 }
 
 // Function:    KmcSuppressCallback
@@ -1445,6 +1526,35 @@ VOID UmhLoadResults()
     SendMessage(wh.StatusBar, SB_SETTEXT, (WPARAM)0, (LPARAM)L"Ready");
 }
 
+// Function:    UmhCompareFunc
+// Description: Sorts the hooked function list view depending on the column.
+// Called from: UmhWndProc when clicking a column header of the hooked function list view.
+int CALLBACK UmhCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+    int nRetVal = 0;
+
+    PLOADED_MODULE Item1Module = wd.UmhModules.at(HIWORD(lParam1));
+    PLOADED_MODULE Item2Module = wd.UmhModules.at(HIWORD(lParam2));
+    PHOOKED_FUNCTION Item1Function = Item1Module->HookedFunctions.at(LOWORD(lParam1));
+    PHOOKED_FUNCTION Item2Function = Item2Module->HookedFunctions.at(LOWORD(lParam2));
+
+    switch (lParamSort)
+    {
+    case 0:	// Module
+        nRetVal = wcscmp(Item1Module->Path, Item2Module->Path);
+        break;
+
+    case 1:	// Function Name
+        nRetVal = wcscmp(Item1Function->Name, Item2Function->Name);
+        break;
+
+    default:
+        break;
+    }
+
+    return nRetVal;
+}
+
 // Function:    UmhRestoreFunction
 // Description: Unhooks the selected function.
 // Called from: UmhWndProc when clicking the restore button.
@@ -1534,7 +1644,47 @@ VOID UmeLoadResults()
     StringCbPrintfW(CountText, MAX_PATH, L"Count: %d sessions.", wd.UmeSessions.size());
     Static_SetText(wh.UmeCountLabel, CountText);
 
+    // Default sort by notable items.
+    ListView_SortItems(wh.UmeListView, UmeCompareFunc, 2);
+
     SendMessage(wh.StatusBar, SB_SETTEXT, (WPARAM)0, (LPARAM)L"Ready");
+}
+
+// Function:    UmeCompareFunc
+// Description: Sorts the ETW list view depending on the column.
+// Called from: UmeWndProc when clicking a column header of the ETW list view.
+int CALLBACK UmeCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+    int nRetVal = 0;
+
+    PTRACING_SESSION Item1Session = wd.UmeSessions.at(HIWORD(lParam1));
+    PTRACING_SESSION Item2Session = wd.UmeSessions.at(HIWORD(lParam2));
+    PTRACE_PROVIDER Item1Provider = Item1Session->EnabledProviders.at(LOWORD(lParam1));
+    PTRACE_PROVIDER Item2Provider = Item2Session->EnabledProviders.at(LOWORD(lParam2));
+    BOOL Item1Notable = FALSE;
+    BOOL Item2Notable = FALSE;
+
+    switch (lParamSort)
+    {
+    case 0:	// Session
+        nRetVal = wcscmp(Item1Session->InstanceName, Item2Session->InstanceName);
+        break;
+
+    case 1:	// Provider Name
+        nRetVal = wcscmp(Item1Provider->ProviderName, Item2Provider->ProviderName);
+        break;
+
+    case 2: // Is Notable?
+        Item1Notable = Item1Session->Notable || Item1Provider->Notable;
+        Item2Notable = Item2Session->Notable || Item2Provider->Notable;
+        nRetVal = (Item1Notable == Item2Notable) ? 0 : (Item1Notable) ? -1 : (Item2Notable) ? 1 : 0;
+        break;
+
+    default:
+        break;
+    }
+
+    return nRetVal;
 }
 
 // Function:    UmeDisableSelectedProvider

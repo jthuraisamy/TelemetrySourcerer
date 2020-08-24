@@ -32,6 +32,7 @@ VOID PopulateUmeHashes()
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-SMBServer")));
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-WMI-Activity")));
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-Sysmon")));
+	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-PowerShell")));
 
 	NotableSessionHashes.insert(0x7CB510BA9B40BEEC);
 	NotableSessionHashes.insert(0x0DD1D51CF3AADD14);

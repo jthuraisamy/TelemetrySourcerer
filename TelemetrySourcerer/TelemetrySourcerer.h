@@ -3,7 +3,7 @@
 #include <Windows.h>
 
 #define TOOL_NAME L"Telemetry Sourcerer"
-#define VERSION   L"0.9.1"
+#define VERSION   L"0.10.0"
 
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK KmcWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

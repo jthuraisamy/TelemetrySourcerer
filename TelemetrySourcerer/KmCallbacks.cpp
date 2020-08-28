@@ -20,8 +20,12 @@ std::set<wstring> CommonModules;
 DWORD LoadDriver()
 {
 	// Driver is already loaded if can create a handle.
-	if (GetDeviceHandle() != (HANDLE)-1)
+	HANDLE DeviceHandle = GetDeviceHandle();
+	if (DeviceHandle != (HANDLE)-1)
+	{
+		CloseHandle(DeviceHandle);
 		return ERROR_SUCCESS;
+	}
 
 	// Cannot load the driver if the process is not elevated.
 	if (!IsProcessElevated())
@@ -271,6 +275,7 @@ std::vector<PCALLBACK_ENTRY> GetCallbacks(std::vector<PCALLBACK_ENTRY> OldCallba
 		CallbackInfos, sizeof(CALLBACK_INFO) * MAX_CALLBACKS,
 		CallbackInfos, sizeof(CALLBACK_INFO) * MAX_CALLBACKS,
 		&BytesReturned, nullptr);
+	CloseHandle(DeviceHandle);
 
 	if (!BytesReturned)
 		return CallbackEntries;

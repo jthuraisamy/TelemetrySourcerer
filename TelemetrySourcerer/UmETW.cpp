@@ -33,6 +33,8 @@ VOID PopulateUmeHashes()
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-WMI-Activity")));
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-Sysmon")));
 	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-PowerShell")));
+	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-Security-Auditing")));
+	NotableProviderHashes.insert(HashString(wstring(L"Microsoft-Windows-Kernel-Audit-API-Calls")));
 
 	NotableSessionHashes.insert(0x7CB510BA9B40BEEC);
 	NotableSessionHashes.insert(0x0DD1D51CF3AADD14);
@@ -44,6 +46,7 @@ VOID PopulateUmeHashes()
 	NotableSessionHashes.insert(0x8CAB419C02FF68DD);
 	NotableSessionHashes.insert(0x1F5E4F79416EBBDF);
 	NotableSessionHashes.insert(0x2D4F43EC18BBA6C4);
+	NotableSessionHashes.insert(0xCF6C704DE84749C6);
 }
 
 // Function:    GetSessions

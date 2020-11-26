@@ -1,4 +1,5 @@
 #include <ntddk.h>
+#include <wdmsec.h>
 
 #include "TelemetrySourcererDriver.h"
 #include "Common.h"
@@ -19,7 +20,8 @@ extern "C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT DriverObject, _In_ PUNICODE_
 	// Create device.
 	PDEVICE_OBJECT DeviceObject;
 	UNICODE_STRING DeviceName = RTL_CONSTANT_STRING(LR"(\Device\TelemetrySourcererDriver)");
-	Status = IoCreateDevice(DriverObject, 0, &DeviceName, FILE_DEVICE_UNKNOWN, 0, FALSE, &DeviceObject);
+	UNICODE_STRING DefaultSDDLString = RTL_CONSTANT_STRING(L"D:P(A;;GA;;;SY)(A;;GA;;;BA)");
+	Status = IoCreateDeviceSecure(DriverObject, 0, &DeviceName, FILE_DEVICE_UNKNOWN, 0, FALSE, &DefaultSDDLString, nullptr, &DeviceObject);
 	if (NT_SUCCESS(Status))
 	{
 		DeviceObject->Flags |= DO_BUFFERED_IO;
@@ -74,7 +76,7 @@ NTSTATUS DispatchDeviceControl(PDEVICE_OBJECT, PIRP Irp)
 	
 	PIO_STACK_LOCATION Stack = IoGetCurrentIrpStackLocation(Irp);
 
-	switch (Stack->Parameters.DeviceIoControl.IoControlCode)
+	switch ((int)Stack->Parameters.DeviceIoControl.IoControlCode)
 	{
 	case IOCTL_SANDBOX:
 	{

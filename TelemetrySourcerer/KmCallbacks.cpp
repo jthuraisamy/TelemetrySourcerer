@@ -33,10 +33,10 @@ DWORD LoadDriver()
 
 	// Check if the driver is in the same directory.
 	WCHAR ExecutableDirectory[MAX_PATH] = { 0 };
-	GetModuleFileNameW(GetModuleHandle(NULL), (LPWSTR)&ExecutableDirectory, MAX_PATH * 2);
+	GetModuleFileNameW(GetModuleHandle(NULL), (LPWSTR)&ExecutableDirectory, MAX_PATH - 1);
 	PathRemoveFileSpecW((LPWSTR)&ExecutableDirectory);
 	WCHAR DriverPath[MAX_PATH] = { 0 };
-	StringCbPrintfW(DriverPath, MAX_PATH, LR"(\??\%ls\TelemetrySourcererDriver.sys)", ExecutableDirectory);
+	StringCchPrintfW(DriverPath, MAX_PATH, LR"(\??\%ls\TelemetrySourcererDriver.sys)", ExecutableDirectory);
 	if (!PathFileExistsW(DriverPath))
 		return ERROR_FILE_NOT_FOUND;
 
@@ -71,6 +71,11 @@ DWORD LoadDriver()
 
 	// Start the service.
 	BOOL ServiceStarted = StartServiceW(SvcHandle, NULL, nullptr);
+	
+	// Release resources.
+	CloseServiceHandle(SvcHandle);
+	CloseHandle(DeviceHandle);
+
 	if (ServiceStarted)
 		return ERROR_SUCCESS;
 	else
@@ -114,20 +119,37 @@ BOOL IsProcessElevated()
 	HANDLE TokenHandle;
 	DWORD ReturnLength;
 	TOKEN_ELEVATION_TYPE ElevationType;
-	OpenProcessToken(GetCurrentProcess(), TOKEN_READ, &TokenHandle);
-	GetTokenInformation(TokenHandle, TokenElevationType, &ElevationType, sizeof(TOKEN_ELEVATION_TYPE), &ReturnLength);
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_READ, &TokenHandle))
+	{
+		if (GetTokenInformation(TokenHandle, TokenElevationType, &ElevationType, sizeof(TOKEN_ELEVATION_TYPE), &ReturnLength))
+		{
+			CloseHandle(TokenHandle);
 
-	if (ElevationType == TokenElevationTypeFull)
-		return TRUE;
-
-	BOOL IsSystem = FALSE;
-	PSID SystemSid = nullptr;
-	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
-	if (AllocateAndInitializeSid(&NtAuthority, 1, SECURITY_LOCAL_SYSTEM_RID, 0, 0, 0, 0, 0, 0, 0, &SystemSid))
-		if (CheckTokenMembership(NULL, SystemSid, &IsSystem))
-			if (IsSystem)
+			if (ElevationType == TokenElevationTypeFull)
+			{
 				return TRUE;
+			}
+			else
+			{
+				BOOL IsSystem = FALSE;
+				PSID SystemSid = nullptr;
+				SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+				if (AllocateAndInitializeSid(&NtAuthority, 1, SECURITY_LOCAL_SYSTEM_RID, 0, 0, 0, 0, 0, 0, 0, &SystemSid))
+				{
+					if (CheckTokenMembership(NULL, SystemSid, &IsSystem))
+					{
+						FreeSid(SystemSid);
 
+						if (IsSystem)
+						{
+							return TRUE;
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	return FALSE;
 }
 
@@ -278,7 +300,10 @@ std::vector<PCALLBACK_ENTRY> GetCallbacks(std::vector<PCALLBACK_ENTRY> OldCallba
 	CloseHandle(DeviceHandle);
 
 	if (!BytesReturned)
+	{
+		HeapFree(GetProcessHeap(), NULL, CallbackInfos);
 		return CallbackEntries;
+	}
 
 	for (int i = 0; i < MAX_CALLBACKS; i++)
 	{

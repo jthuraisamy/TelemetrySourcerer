@@ -301,6 +301,7 @@ std::vector<PCALLBACK_ENTRY> GetCallbacks(std::vector<PCALLBACK_ENTRY> OldCallba
 
 	if (!BytesReturned)
 	{
+		HeapFree(GetProcessHeap(), NULL, ModuleInfos);
 		HeapFree(GetProcessHeap(), NULL, CallbackInfos);
 		return CallbackEntries;
 	}

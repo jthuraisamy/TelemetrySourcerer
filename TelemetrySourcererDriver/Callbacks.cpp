@@ -10,7 +10,7 @@ UCHAR LI_PATTERN_W7_07600[] = { 0x41, 0x0f, 0xba, 0x6d, 0x00, 0x0a, 0xbb, 0x01, 
 UCHAR LI_PATTERN_W8_08102[] = { 0xbf, 0x08, 0x00, 0x00, 0x00, 0x41, 0x89, 0x06, 0x0f, 0x1f, 0x04, 0x00, 0x48, 0x8b, 0xcb, 0xe8 };
 UCHAR LI_PATTERN_W8_09431[] = { 0x45, 0x33, 0xc0, 0x48, 0x8b, 0xd7, 0x48, 0x8d, 0x0c, 0xd9, 0xe8 };
 UCHAR LI_PATTERN_WX_10240[] = { 0x45, 0x33, 0xC0, 0x48, 0x8D, 0x0C, 0xD9, 0x48, 0x8B, 0xD7, 0xE8 };
-CALLBACK_SEARCH_QUERY LoadImageCallbackQueries[13] = {
+CALLBACK_SEARCH_QUERY LoadImageCallbackQueries[14] = {
 	{ WINDOWS_INDEX::W7_07600, RTL_CONSTANT_STRING(L"FsRtlReleaseFile"),                    RTL_CONSTANT_STRING(L"IoSetPartitionInformationEx"),               LI_PATTERN_W7_07600, sizeof(LI_PATTERN_W7_07600), -4 },
 	{ WINDOWS_INDEX::W8_08102, RTL_CONSTANT_STRING(L"ExSizeOfRundownProtectionCacheAware"), RTL_CONSTANT_STRING(L"MmProbeAndLockProcessPages"),                LI_PATTERN_W8_08102, sizeof(LI_PATTERN_W8_08102), -4 },
 	{ WINDOWS_INDEX::W8_09431, RTL_CONSTANT_STRING(L"PsSetLoadImageNotifyRoutine"),         RTL_CONSTANT_STRING(L"PsSetCreateThreadNotifyRoutine"),            LI_PATTERN_W8_09431, sizeof(LI_PATTERN_W8_09431), -4 },
@@ -24,6 +24,7 @@ CALLBACK_SEARCH_QUERY LoadImageCallbackQueries[13] = {
 	{ WINDOWS_INDEX::WX_18362, RTL_CONSTANT_STRING(L"PsSetLoadImageNotifyRoutineEx"),       RTL_CONSTANT_STRING(L"PsSetCreateProcessNotifyRoutine"),           LI_PATTERN_WX_10240, sizeof(LI_PATTERN_WX_10240), -4 },
 	{ WINDOWS_INDEX::WX_18363, RTL_CONSTANT_STRING(L"PsSetLoadImageNotifyRoutineEx"),       RTL_CONSTANT_STRING(L"PsSetCreateProcessNotifyRoutine"),           LI_PATTERN_WX_10240, sizeof(LI_PATTERN_WX_10240), -4 },
 	{ WINDOWS_INDEX::WX_19041, RTL_CONSTANT_STRING(L"PsSetLoadImageNotifyRoutineEx"),       RTL_CONSTANT_STRING(L"PsSetCreateProcessNotifyRoutine"),           LI_PATTERN_WX_10240, sizeof(LI_PATTERN_WX_10240), -4 },
+	{ WINDOWS_INDEX::WX_19042, RTL_CONSTANT_STRING(L"PsSetLoadImageNotifyRoutineEx"),       RTL_CONSTANT_STRING(L"PsSetCreateProcessNotifyRoutine"),           LI_PATTERN_WX_10240, sizeof(LI_PATTERN_WX_10240), -4 },
 };
 
 UCHAR CP_PATTERN_W7_07600[] = { 0x4c, 0x8b, 0xf9, 0x48, 0x8d, 0x0c, 0xc1, 0xe8 };
@@ -34,7 +35,7 @@ UCHAR CP_PATTERN_WX_10586[] = { 0x49, 0x8d, 0x0c, 0xff, 0x45, 0x33, 0xc0, 0x48, 
 UCHAR CP_PATTERN_WX_14393[] = { 0x49, 0x8d, 0x0c, 0xfc, 0x45, 0x33, 0xc0, 0x48, 0x8b, 0xd6, 0xe8 };
 UCHAR CP_PATTERN_WX_15063[] = { 0x49, 0x8d, 0x0c, 0xdc, 0x45, 0x33, 0xc0, 0x48, 0x8b, 0xd6, 0xe8 };
 UCHAR CP_PATTERN_WX_16299[] = { 0x48, 0x8d, 0x0c, 0xdd, 0x00, 0x00, 0x00, 0x00, 0x45, 0x33, 0xc0, 0x49, 0x03, 0xcd, 0x48, 0x8b };
-CALLBACK_SEARCH_QUERY CreateProcessCallbackQueries[13] = {
+CALLBACK_SEARCH_QUERY CreateProcessCallbackQueries[14] = {
 	{ WINDOWS_INDEX::W7_07600, RTL_CONSTANT_STRING(L"RtlAreAllAccessesGranted"),            RTL_CONSTANT_STRING(L"RtlGetIntegerAtom"),                         CP_PATTERN_W7_07600, sizeof(CP_PATTERN_W7_07600), -4 },
 	{ WINDOWS_INDEX::W8_08102, RTL_CONSTANT_STRING(L"PsAcquireProcessExitSynchronization"), RTL_CONSTANT_STRING(L"FsRtlAddToTunnelCache"),                     CP_PATTERN_W8_08102, sizeof(CP_PATTERN_W8_08102), -4 },
 	{ WINDOWS_INDEX::W8_09431, RTL_CONSTANT_STRING(L"ObCreateObject"),                      RTL_CONSTANT_STRING(L"NtFindAtom"),                                CP_PATTERN_W8_09431, sizeof(CP_PATTERN_W8_09431), -4 },
@@ -48,11 +49,12 @@ CALLBACK_SEARCH_QUERY CreateProcessCallbackQueries[13] = {
 	{ WINDOWS_INDEX::WX_18362, RTL_CONSTANT_STRING(L"PsSetCreateProcessNotifyRoutine"),     RTL_CONSTANT_STRING(L"IoCreateDriver"),                            CP_PATTERN_WX_16299, sizeof(CP_PATTERN_WX_16299), -4 },
 	{ WINDOWS_INDEX::WX_18363, RTL_CONSTANT_STRING(L"PsSetCreateProcessNotifyRoutine"),     RTL_CONSTANT_STRING(L"IoCreateDriver"),                            CP_PATTERN_WX_16299, sizeof(CP_PATTERN_WX_16299), -4 },
 	{ WINDOWS_INDEX::WX_19041, RTL_CONSTANT_STRING(L"PsSetCreateProcessNotifyRoutine"),     RTL_CONSTANT_STRING(L"IoCreateDriver"),                            CP_PATTERN_WX_16299, sizeof(CP_PATTERN_WX_16299), -4 },
+	{ WINDOWS_INDEX::WX_19042, RTL_CONSTANT_STRING(L"PsSetCreateProcessNotifyRoutine"),     RTL_CONSTANT_STRING(L"IoCreateDriver"),                            CP_PATTERN_WX_16299, sizeof(CP_PATTERN_WX_16299), -4 },
 };
 
 UCHAR CT_PATTERN_W7_07600[] = { 0xbf, 0x40, 0x00, 0x00, 0x00, 0x48, 0x8b, 0xcb, 0xe8 };
 UCHAR CT_PATTERN_WX_10240[] = { 0x48, 0x8b, 0xcd, 0xe8 };
-CALLBACK_SEARCH_QUERY CreateThreadCallbackQueries[13] = {
+CALLBACK_SEARCH_QUERY CreateThreadCallbackQueries[14] = {
 	{ WINDOWS_INDEX::W7_07600, RTL_CONSTANT_STRING(L"RtlUnicodeToMultiByteSize"),           RTL_CONSTANT_STRING(L"MmLockPagableSectionByHandle"),              CT_PATTERN_W7_07600, sizeof(CT_PATTERN_W7_07600), -5 },
 	{ WINDOWS_INDEX::W8_08102, RTL_CONSTANT_STRING(L"PsAcquireProcessExitSynchronization"), RTL_CONSTANT_STRING(L"FsRtlAddToTunnelCache"),                     CT_PATTERN_W7_07600, sizeof(CT_PATTERN_W7_07600), -4 },
 	{ WINDOWS_INDEX::W8_09431, RTL_CONSTANT_STRING(L"ObCreateObject"),                      RTL_CONSTANT_STRING(L"NtFindAtom"),                                CT_PATTERN_W7_07600, sizeof(CT_PATTERN_W7_07600), -5 },
@@ -66,12 +68,13 @@ CALLBACK_SEARCH_QUERY CreateThreadCallbackQueries[13] = {
 	{ WINDOWS_INDEX::WX_18362, RTL_CONSTANT_STRING(L"PsRemoveCreateThreadNotifyRoutine"),   RTL_CONSTANT_STRING(L"PsRemoveLoadImageNotifyRoutine"),            CT_PATTERN_WX_10240, sizeof(CT_PATTERN_WX_10240), -8 },
 	{ WINDOWS_INDEX::WX_18363, RTL_CONSTANT_STRING(L"PsRemoveCreateThreadNotifyRoutine"),   RTL_CONSTANT_STRING(L"PsRemoveLoadImageNotifyRoutine"),            CT_PATTERN_WX_10240, sizeof(CT_PATTERN_WX_10240), -8 },
 	{ WINDOWS_INDEX::WX_19041, RTL_CONSTANT_STRING(L"PsRemoveCreateThreadNotifyRoutine"),   RTL_CONSTANT_STRING(L"PsRemoveLoadImageNotifyRoutine"),            CT_PATTERN_WX_10240, sizeof(CT_PATTERN_WX_10240), -8 },
+	{ WINDOWS_INDEX::WX_19042, RTL_CONSTANT_STRING(L"PsRemoveCreateThreadNotifyRoutine"),   RTL_CONSTANT_STRING(L"PsRemoveLoadImageNotifyRoutine"),            CT_PATTERN_WX_10240, sizeof(CT_PATTERN_WX_10240), -8 },
 };
 
 UCHAR RG_PATTERN_W7_07600[] = { 0x48, 0x8b, 0xf8, 0x48, 0x89, 0x44, 0x24, 0x28, 0x48, 0x3b, 0xc3, 0x0f, 0x84 };
 UCHAR RG_PATTERN_W8_08102[] = { 0x49, 0x8b, 0x04, 0x24, 0x48, 0x3b, 0x43, 0x18, 0x74 };
 UCHAR RG_PATTERN_WX_10240[] = { 0x48, 0x8b, 0xf8, 0x48, 0x89, 0x44, 0x24, 0x40, 0x48, 0x85, 0xc0, 0x0f, 0x84 };
-CALLBACK_SEARCH_QUERY RegistryCallbackQueries[13] = {
+CALLBACK_SEARCH_QUERY RegistryCallbackQueries[14] = {
 	{ WINDOWS_INDEX::W7_07600, RTL_CONSTANT_STRING(L"CmUnRegisterCallback"),                RTL_CONSTANT_STRING(L"CmRegisterCallback"),                        RG_PATTERN_W7_07600, sizeof(RG_PATTERN_W7_07600), -9 },
 	{ WINDOWS_INDEX::W8_08102, RTL_CONSTANT_STRING(L"CmSetCallbackObjectContext"),          RTL_CONSTANT_STRING(L"CmGetCallbackVersion"),                      RG_PATTERN_W8_08102, sizeof(RG_PATTERN_W8_08102), -9 },
 	{ WINDOWS_INDEX::W8_09431, RTL_CONSTANT_STRING(L"CmSetCallbackObjectContext"),          RTL_CONSTANT_STRING(L"DbgkLkmdUnregisterCallback"),                RG_PATTERN_W8_08102, sizeof(RG_PATTERN_W8_08102), -9 },
@@ -85,12 +88,13 @@ CALLBACK_SEARCH_QUERY RegistryCallbackQueries[13] = {
 	{ WINDOWS_INDEX::WX_18362, RTL_CONSTANT_STRING(L"CmUnRegisterCallback"),                RTL_CONSTANT_STRING(L"DbgkLkmdUnregisterCallback"),                RG_PATTERN_WX_10240, sizeof(RG_PATTERN_WX_10240), -9 },
 	{ WINDOWS_INDEX::WX_18363, RTL_CONSTANT_STRING(L"CmUnRegisterCallback"),                RTL_CONSTANT_STRING(L"DbgkLkmdUnregisterCallback"),                RG_PATTERN_WX_10240, sizeof(RG_PATTERN_WX_10240), -9 },
 	{ WINDOWS_INDEX::WX_19041, RTL_CONSTANT_STRING(L"CmUnRegisterCallback"),                RTL_CONSTANT_STRING(L"DbgkLkmdUnregisterCallback"),                RG_PATTERN_WX_10240, sizeof(RG_PATTERN_WX_10240), -9 },
+	{ WINDOWS_INDEX::WX_19042, RTL_CONSTANT_STRING(L"CmUnRegisterCallback"),                RTL_CONSTANT_STRING(L"DbgkLkmdUnregisterCallback"),                RG_PATTERN_WX_10240, sizeof(RG_PATTERN_WX_10240), -9 },
 };
 
 UCHAR OB_PATTERN_W7_07600[] = { 0x41, 0x8a, 0xde, 0x44, 0x88, 0x74, 0x24, 0x47, 0x88, 0x5c, 0x24, 0x46, 0x4c, 0x89, 0x74, 0x24, 0x38, 0x4c, 0x89, 0x74, 0x24, 0x30, 0x49, 0x8b, 0xee, 0xc7, 0x44, 0x24, 0x48 };
 UCHAR OB_PATTERN_W8_08102[] = { 0x41, 0x8a, 0xd8, 0x44, 0x88, 0x44, 0x24, 0x4f, 0x88, 0x5c, 0x24, 0x4e, 0x4c, 0x89, 0x44, 0x24, 0x38, 0x4d, 0x8b, 0xf0, 0x4c, 0x89, 0x44, 0x24, 0x30, 0xc7, 0x44, 0x24, 0x50 };
 UCHAR OB_PATTERN_WX_10240[] = { 0x0f, 0xb7, 0x02, 0xff, 0xc9, 0x49, 0x03 };
-CALLBACK_SEARCH_QUERY ObjectCallbackQueries[13] = {
+CALLBACK_SEARCH_QUERY ObjectCallbackQueries[14] = {
 	{ WINDOWS_INDEX::W7_07600, RTL_CONSTANT_STRING(L"ObUnRegisterCallbacks"),               RTL_CONSTANT_STRING(L"ObCreateObjectType"),                        OB_PATTERN_W7_07600, sizeof(OB_PATTERN_W7_07600), -4 },
 	{ WINDOWS_INDEX::W8_08102, RTL_CONSTANT_STRING(L"ObCreateObjectType"),                  RTL_CONSTANT_STRING(L"IoCreateController"),                        OB_PATTERN_W8_08102, sizeof(OB_PATTERN_W8_08102), -4 },
 	{ WINDOWS_INDEX::W8_09431, RTL_CONSTANT_STRING(L"ObCreateObjectType"),                  RTL_CONSTANT_STRING(L"RtlRunOnceInitialize"),                      OB_PATTERN_W8_08102, sizeof(OB_PATTERN_W8_08102), -4 },
@@ -104,6 +108,7 @@ CALLBACK_SEARCH_QUERY ObjectCallbackQueries[13] = {
 	{ WINDOWS_INDEX::WX_18362, RTL_CONSTANT_STRING(L"ObCreateObjectType"),                  RTL_CONSTANT_STRING(L"IoCreateDriver"),                            OB_PATTERN_WX_10240, sizeof(OB_PATTERN_WX_10240), 25 },
 	{ WINDOWS_INDEX::WX_18363, RTL_CONSTANT_STRING(L"ObCreateObjectType"),                  RTL_CONSTANT_STRING(L"PoCreateThermalRequest"),                    OB_PATTERN_WX_10240, sizeof(OB_PATTERN_WX_10240), 25 },
 	{ WINDOWS_INDEX::WX_19041, RTL_CONSTANT_STRING(L"ObCreateObjectType"),                  RTL_CONSTANT_STRING(L"IoCreateDriver"),                            OB_PATTERN_WX_10240, sizeof(OB_PATTERN_WX_10240), 25 },
+	{ WINDOWS_INDEX::WX_19042, RTL_CONSTANT_STRING(L"ObCreateObjectType"),                  RTL_CONSTANT_STRING(L"IoCreateDriver"),                            OB_PATTERN_WX_10240, sizeof(OB_PATTERN_WX_10240), 25 },
 };
 
 FLT_POSTOP_CALLBACK_STATUS
@@ -188,6 +193,9 @@ WINDOWS_INDEX GetWindowsIndex()
 		break;
 	case 19041: // 2004
 		return WINDOWS_INDEX::WX_19041;
+		break;
+	case 19042: // 20H2
+		return WINDOWS_INDEX::WX_19042;
 		break;
 	default:
 		return WINDOWS_INDEX::Unsupported;

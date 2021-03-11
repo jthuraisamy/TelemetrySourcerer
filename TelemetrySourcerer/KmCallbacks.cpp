@@ -109,6 +109,8 @@ DWORD UnloadDriver()
 	{
 		return GetLastError();
 	}
+
+	return ERROR_SUCCESS;
 }
 
 // Function:    IsProcessElevated

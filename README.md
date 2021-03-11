@@ -74,7 +74,7 @@ To view kernel-mode callbacks, the tool needs to be run with elevated privileges
 - Compiled with Visual Studio 2019 using the Windows 10 SDK (10.0.19041.0) and WDK (2004).
 - Currently does not look for IAT/EAT user-mode hooks, or kernel-mode hooks.
 - The driver has not been thoroughly tested for abuse cases.
-- Tested on Windows 7 and 10 only.
+- Tested on Windows 7 and 10 (x64) only.
 
 ## Credits
 
